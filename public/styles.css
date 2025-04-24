@@ -352,6 +352,45 @@ body {
     50% { transform: translateY(-20px); }
 }
 
+.photo-gallery, .video-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.photo-frame, .video-frame {
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(255, 64, 129, 0.2);
+    transition: transform 0.3s;
+    text-align: center;
+}
+
+.photo-frame:hover, .video-frame:hover {
+    transform: translateY(-10px);
+}
+
+.photo-frame img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.video-frame video {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.photo-caption, .video-caption {
+    margin-top: 10px;
+    font-family: 'Dancing Script', cursive;
+    color: #ff4081;
+    font-size: 1.2em;
+}
+
 @media (max-width: 768px) {
     .title {
         font-size: 3em;
