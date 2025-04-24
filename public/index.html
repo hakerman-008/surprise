@@ -1,23 +1,57 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube Shorts Viewer</title>
+    <title>For My Aashika ❤️</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <div class="video-container">
-            <div id="shorts-feed"></div>
+        <div class="hearts-bg"></div>
+        <div class="content">
+            <h1 class="title">Dear Aashika</h1>
+            <div class="love-message">Click the heart to begin our journey ❤️</div>
+            <div class="heart-container">
+                <div class="heart" id="mainHeart"></div>
+            </div>
         </div>
-        <div class="controls">
-            <button id="prevVideo"><i class="fas fa-chevron-up"></i></button>
-            <button id="nextVideo"><i class="fas fa-chevron-down"></i></button>
+
+        <div class="surprise-sections hidden">
+            <section class="surprise" id="surprise1">
+                <h2>The Day We Met</h2>
+                <p class="memory-text">Every moment since then has been magical...</p>
+                <div class="doodle-art"></div>
+            </section>
+
+            <section class="surprise" id="surprise2">
+                <h2>Our Special Memories</h2>
+                <div class="floating-hearts">
+                    <span>🌹</span>
+                    <span>💝</span>
+                    <span>💖</span>
+                </div>
+                <p class="love-quote">"In your smile, I see something more beautiful than the stars."</p>
+            </section>
+
+            <section class="surprise" id="surprise3">
+                <h2>My Promise</h2>
+                <div class="promise-container">
+                    <p>To love you more each day</p>
+                    <p>To make you smile always</p>
+                    <p>To be your forever</p>
+                </div>
+            </section>
+
+            <div class="final-message hidden">
+                <h2>I Love You Aashika ❤️</h2>
+                <p>Forever Yours</p>
+            </div>
         </div>
     </div>
-    <script src="https://www.youtube.com/iframe_api"></script>
     <script src="script.js"></script>
 </body>
 </html>

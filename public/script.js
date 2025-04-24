@@ -1,79 +1,91 @@
 
-let currentIndex = 0;
-const shortsFeed = document.getElementById('shorts-feed');
+document.addEventListener('DOMContentLoaded', () => {
+    const mainHeart = document.getElementById('mainHeart');
+    const surpriseSections = document.querySelector('.surprise-sections');
+    const surprises = document.querySelectorAll('.surprise');
+    const finalMessage = document.querySelector('.final-message');
+    let currentSurprise = 0;
 
-async function fetchYouTubeShorts() {
-    // This would typically come from your backend API
-    return [
-        'shorts/jJPMnTXl63E',
-        'shorts/FHgm89hKpXU',
-        'shorts/XqZsoesa55w',
-        'shorts/9bZkp7q19f0',
-        'shorts/kJQP7kiw5Fk'
-    ];
-}
+    // Create floating hearts background
+    createHeartsBg();
 
-function createShortItem(videoUrl) {
-    const div = document.createElement('div');
-    div.className = 'short-item';
-    const videoId = videoUrl.split('/')[1];
-    
-    div.innerHTML = `
-        <div class="video-wrapper">
-            <iframe
-                src="https://www.youtube.com/embed/${videoId}?enablejsapi=1&controls=0&loop=1&modestbranding=1&rel=0&showinfo=0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-            ></iframe>
-        </div>
-    `;
-    return div;
-}
-
-let players = [];
-
-function onYouTubeIframeAPIReady() {
-    loadShorts();
-}
-
-function loadShorts() {
-    shortsFeed.innerHTML = '';
-    shortsIds.forEach((id, index) => {
-        const short = createShortItem(id);
-        short.style.transform = `translateY(${(index - currentIndex) * 100}vh)`;
-        shortsFeed.appendChild(short);
+    // Initial animations
+    gsap.to('.title', {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: 'back.out'
     });
-}
 
-function updatePositions() {
-    const shorts = document.querySelectorAll('.short-item');
-    shorts.forEach((short, index) => {
-        short.style.transform = `translateY(${(index - currentIndex) * 100}vh)`;
+    mainHeart.addEventListener('click', () => {
+        surpriseSections.classList.remove('hidden');
+        mainHeart.style.display = 'none';
+        document.querySelector('.love-message').style.display = 'none';
+        showNextSurprise();
     });
-}
 
-document.getElementById('nextVideo').addEventListener('click', () => {
-    if (currentIndex < shortsIds.length - 1) {
-        currentIndex++;
-        updatePositions();
+    function showNextSurprise() {
+        if (currentSurprise < surprises.length) {
+            surprises[currentSurprise].classList.add('visible');
+            
+            if (currentSurprise === 2) {
+                // Animate promise texts
+                const promises = document.querySelectorAll('.promise-container p');
+                promises.forEach((promise, index) => {
+                    setTimeout(() => {
+                        promise.classList.add('visible');
+                    }, index * 1000);
+                });
+            }
+            
+            currentSurprise++;
+            
+            if (currentSurprise === surprises.length) {
+                setTimeout(showFinalMessage, 2000);
+            }
+        }
     }
-});
 
-document.getElementById('prevVideo').addEventListener('click', () => {
-    if (currentIndex > 0) {
-        currentIndex--;
-        updatePositions();
+    function showFinalMessage() {
+        finalMessage.classList.remove('hidden');
+        setTimeout(() => {
+            finalMessage.classList.add('visible');
+        }, 100);
     }
-});
 
-document.addEventListener('wheel', (e) => {
-    if (e.deltaY > 0 && currentIndex < shortsIds.length - 1) {
-        currentIndex++;
-        updatePositions();
-    } else if (e.deltaY < 0 && currentIndex > 0) {
-        currentIndex--;
-        updatePositions();
+    // Scroll trigger for surprises
+    window.addEventListener('scroll', () => {
+        const scrollPos = window.scrollY + window.innerHeight;
+        surprises.forEach(surprise => {
+            const surprisePos = surprise.offsetTop + surprise.offsetHeight / 2;
+            if (scrollPos > surprisePos) {
+                surprise.classList.add('visible');
+            }
+        });
+    });
+
+    function createHeartsBg() {
+        const heartsBg = document.querySelector('.hearts-bg');
+        for (let i = 0; i < 20; i++) {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.style.position = 'absolute';
+            heart.style.left = `${Math.random() * 100}%`;
+            heart.style.top = `${Math.random() * 100}%`;
+            heart.style.opacity = '0.2';
+            heart.style.fontSize = `${Math.random() * 20 + 10}px`;
+            heart.style.animation = `float ${Math.random() * 3 + 2}s infinite`;
+            heartsBg.appendChild(heart);
+        }
     }
-});
 
-loadShorts();
+    // Add smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+});

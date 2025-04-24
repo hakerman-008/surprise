@@ -1,3 +1,4 @@
+
 * {
     margin: 0;
     padding: 0;
@@ -5,71 +6,184 @@
 }
 
 body {
-    background: #000;
-    height: 100vh;
-    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+    background: #ffecf2;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 .container {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
     position: relative;
+    min-height: 100vh;
+    padding: 20px;
 }
 
-.video-container {
-    height: 100vh;
-    width: calc(100vh * 9/16);
-    max-width: 100vw;
-    position: relative;
-    overflow: hidden;
-    margin: 0 auto;
-    background: #000;
-}
-
-#shorts-feed {
-    height: 100%;
-    position: relative;
-}
-
-.short-item {
-    height: 100vh;
-    width: 100%;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: transform 0.5s ease;
-}
-
-.short-item iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-.controls {
+.hearts-bg {
     position: fixed;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.content {
+    text-align: center;
+    padding-top: 50px;
+}
+
+.title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 4em;
+    color: #ff4081;
+    margin-bottom: 30px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s forwards;
+}
+
+.love-message {
+    font-size: 1.2em;
+    color: #ff6b95;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeIn 2s 1s forwards;
+}
+
+.heart-container {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-    z-index: 100;
+    justify-content: center;
+    margin: 40px 0;
 }
 
-.controls button {
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    color: white;
+.heart {
+    width: 100px;
+    height: 100px;
+    background: #ff4081;
+    position: relative;
+    transform: rotate(45deg);
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: transform 0.3s;
 }
 
-.controls button:hover {
-    background: rgba(255, 255, 255, 0.3);
+.heart:before,
+.heart:after {
+    content: '';
+    width: 100px;
+    height: 100px;
+    background: #ff4081;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.heart:before {
+    left: -50%;
+}
+
+.heart:after {
+    top: -50%;
+}
+
+.heart:hover {
+    transform: rotate(45deg) scale(1.1);
+}
+
+.surprise {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(255, 64, 129, 0.2);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s;
+}
+
+.surprise.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.surprise h2 {
+    font-family: 'Dancing Script', cursive;
+    color: #ff4081;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.memory-text {
+    font-size: 1.2em;
+    color: #666;
+    line-height: 1.6;
+}
+
+.doodle-art {
+    height: 200px;
+    background: url('https://cdn.dribbble.com/users/1018473/screenshots/3952676/love_doodle.gif') center/contain no-repeat;
+    margin: 20px 0;
+}
+
+.floating-hearts span {
+    font-size: 2em;
+    margin: 0 10px;
+    animation: float 3s infinite;
+}
+
+.promise-container p {
+    font-size: 1.2em;
+    color: #ff6b95;
+    margin: 15px 0;
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: all 0.5s;
+}
+
+.promise-container p.visible {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.final-message {
+    text-align: center;
+    padding: 50px 0;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.final-message.visible {
+    opacity: 1;
+}
+
+.hidden {
+    display: none;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 3em;
+    }
+    
+    .surprise {
+        margin: 30px 15px;
+    }
 }
