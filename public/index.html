@@ -1,40 +1,22 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Dose of Positivity</title>
+    <title>YouTube Shorts Viewer</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="light-mode">
-    <div class="theme-toggle">
-        <button id="themeToggle"><i class="fas fa-moon"></i></button>
-        <button id="musicToggle"><i class="fas fa-music"></i></button>
-    </div>
+<body>
     <div class="container">
-        <h1>Daily Dose of Positivity</h1>
-        <div class="content-card">
-            <div id="dailyContent">
-                <img id="contentImage" src="" alt="Daily wholesome content">
-                <p id="contentText"></p>
-            </div>
-            <div class="share-buttons">
-                <button onclick="share('twitter')"><i class="fab fa-twitter"></i></button>
-                <button onclick="share('facebook')"><i class="fab fa-facebook"></i></button>
-            </div>
+        <div class="video-container">
+            <div id="shorts-feed"></div>
         </div>
-        <button id="submitToggle" class="submit-toggle">Submit Your Own ✨</button>
-        <form id="submitForm" class="submit-form hidden">
-            <textarea placeholder="Share your wholesome story or quote..." required></textarea>
-            <input type="file" accept="image/*">
-            <button type="submit">Submit</button>
-        </form>
+        <div class="controls">
+            <button id="prevVideo"><i class="fas fa-chevron-up"></i></button>
+            <button id="nextVideo"><i class="fas fa-chevron-down"></i></button>
+        </div>
     </div>
-    <audio id="pianoMusic" loop>
-        <source src="/music/gentle-piano.mp3" type="audio/mp3">
-    </audio>
     <script src="script.js"></script>
 </body>
 </html>

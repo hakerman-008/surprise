@@ -1,73 +1,66 @@
 
-let dailyContent;
-const music = document.getElementById('pianoMusic');
-const musicToggle = document.getElementById('musicToggle');
-let isMusicPlaying = false;
+const shortsIds = [
+    'jJPMnTXl63E',
+    'FHgm89hKpXU',
+    'XqZsoesa55w',
+    '9bZkp7q19f0',
+    'kJQP7kiw5Fk'
+];
 
-async function fetchDailyContent() {
-    try {
-        const response = await fetch('/daily-content');
-        dailyContent = await response.json();
-        updateContent();
-    } catch (error) {
-        console.error('Error fetching content:', error);
-    }
+let currentIndex = 0;
+const shortsFeed = document.getElementById('shorts-feed');
+
+function createShortItem(videoId) {
+    const div = document.createElement('div');
+    div.className = 'short-item';
+    div.innerHTML = `
+        <iframe
+            src="https://www.youtube.com/embed/${videoId}?autoplay=1&controls=0&loop=1&modestbranding=1&rel=0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+        ></iframe>
+    `;
+    return div;
 }
 
-function updateContent() {
-    document.getElementById('contentImage').src = dailyContent.image;
-    document.getElementById('contentText').textContent = dailyContent.text;
+function loadShorts() {
+    shortsFeed.innerHTML = '';
+    shortsIds.forEach((id, index) => {
+        const short = createShortItem(id);
+        short.style.transform = `translateY(${(index - currentIndex) * 100}vh)`;
+        shortsFeed.appendChild(short);
+    });
 }
 
-function share(platform) {
-    const text = encodeURIComponent(dailyContent.text);
-    const url = encodeURIComponent(window.location.href);
-    
-    if (platform === 'twitter') {
-        window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`);
-    } else if (platform === 'facebook') {
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`);
-    }
+function updatePositions() {
+    const shorts = document.querySelectorAll('.short-item');
+    shorts.forEach((short, index) => {
+        short.style.transform = `translateY(${(index - currentIndex) * 100}vh)`;
+    });
 }
 
-document.getElementById('themeToggle').addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-    const icon = document.querySelector('#themeToggle i');
-    icon.classList.toggle('fa-moon');
-    icon.classList.toggle('fa-sun');
-});
-
-musicToggle.addEventListener('click', () => {
-    if (isMusicPlaying) {
-        music.pause();
-        musicToggle.innerHTML = '<i class="fas fa-music"></i>';
-    } else {
-        music.play();
-        musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
-    }
-    isMusicPlaying = !isMusicPlaying;
-});
-
-document.getElementById('submitToggle').addEventListener('click', () => {
-    document.getElementById('submitForm').classList.toggle('hidden');
-});
-
-document.getElementById('submitForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    try {
-        const response = await fetch('/submit-content', {
-            method: 'POST',
-            body: formData
-        });
-        if (response.ok) {
-            alert('Thank you for your submission!');
-            e.target.reset();
-            e.target.classList.add('hidden');
-        }
-    } catch (error) {
-        console.error('Error submitting content:', error);
+document.getElementById('nextVideo').addEventListener('click', () => {
+    if (currentIndex < shortsIds.length - 1) {
+        currentIndex++;
+        updatePositions();
     }
 });
 
-fetchDailyContent();
+document.getElementById('prevVideo').addEventListener('click', () => {
+    if (currentIndex > 0) {
+        currentIndex--;
+        updatePositions();
+    }
+});
+
+document.addEventListener('wheel', (e) => {
+    if (e.deltaY > 0 && currentIndex < shortsIds.length - 1) {
+        currentIndex++;
+        updatePositions();
+    } else if (e.deltaY < 0 && currentIndex > 0) {
+        currentIndex--;
+        updatePositions();
+    }
+});
+
+loadShorts();
