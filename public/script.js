@@ -1,26 +1,39 @@
 
-const shortsIds = [
-    'jJPMnTXl63E',
-    'FHgm89hKpXU',
-    'XqZsoesa55w',
-    '9bZkp7q19f0',
-    'kJQP7kiw5Fk'
-];
-
 let currentIndex = 0;
 const shortsFeed = document.getElementById('shorts-feed');
 
-function createShortItem(videoId) {
+async function fetchYouTubeShorts() {
+    // This would typically come from your backend API
+    return [
+        'shorts/jJPMnTXl63E',
+        'shorts/FHgm89hKpXU',
+        'shorts/XqZsoesa55w',
+        'shorts/9bZkp7q19f0',
+        'shorts/kJQP7kiw5Fk'
+    ];
+}
+
+function createShortItem(videoUrl) {
     const div = document.createElement('div');
     div.className = 'short-item';
+    const videoId = videoUrl.split('/')[1];
+    
     div.innerHTML = `
-        <iframe
-            src="https://www.youtube.com/embed/${videoId}?autoplay=1&controls=0&loop=1&modestbranding=1&rel=0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-        ></iframe>
+        <div class="video-wrapper">
+            <iframe
+                src="https://www.youtube.com/embed/${videoId}?enablejsapi=1&controls=0&loop=1&modestbranding=1&rel=0&showinfo=0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+            ></iframe>
+        </div>
     `;
     return div;
+}
+
+let players = [];
+
+function onYouTubeIframeAPIReady() {
+    loadShorts();
 }
 
 function loadShorts() {
